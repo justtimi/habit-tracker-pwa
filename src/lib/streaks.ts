@@ -6,12 +6,15 @@ export function calculateCurrentStreak(
 ): number {
   const completionSet = new Set(completions);
   const referenceDate = today ?? getLocalDate();
+  const todayCompleted = completionSet.has(referenceDate);
 
   const yesterdayDate = createLocalDate(referenceDate);
   yesterdayDate.setDate(yesterdayDate.getDate() - 1);
   const yesterday = getLocalDateFromDate(yesterdayDate);
 
-  if (!completionSet.has(yesterday)) {
+  const yesterdayCompleted = completionSet.has(yesterday);
+
+  if (!todayCompleted && !yesterdayCompleted) {
     return 0;
   }
 
