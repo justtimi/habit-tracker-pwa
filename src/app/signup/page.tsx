@@ -1,34 +1,55 @@
 "use client";
 import { AuthService } from "@/lib/auth";
-import React from "react";
+import { useActionState } from "react";
 import { useRouter } from "next/navigation";
+
+interface ActionState {
+  error: string | null;
+  success: boolean;
+}
 
 const Signup = () => {
   const router = useRouter();
 
-  const signup = (e: React.SubmitEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const form = e.currentTarget;
+  async function handleSignup(prevState: ActionState, formData: FormData) {
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
 
-    const email = (form.elements.namedItem("email") as HTMLInputElement).value;
-    const password = (form.elements.namedItem("password") as HTMLInputElement)
-      .value;
+    const result = AuthService.signup(email, password);
+    if (result.success) {
+      router.push("/dashboard");
+      return {
+        error: null,
+        success: true,
+      };
+    }
+    return {
+      error: result.message,
+      success: false,
+    };
+  }
 
-    const log = AuthService.signup(email, password);
-    if (log.success) router.push("/dashboard");
-  };
+  const [state, formAction, isPending] = useActionState(handleSignup, {
+    error: null,
+    success: false,
+  });
   return (
-    <form onSubmit={signup}>
+    <form action={formAction}>
+      <h1>Create Account</h1>
+
+      {state.error && <p style={{ color: "red" }}>{state.error}</p>}
       <div className="">
         <label htmlFor="email">Email:</label>
-        <input type="text" name="email"/>
+        <input name="email" type="email" required />
       </div>
       <div className="">
         <label htmlFor="password">Password:</label>
-        <input type="text" name="password"/>
+        <input name="password" type="password" required />
       </div>
 
-      <button type="submit">Submit</button>
+      <button type="submit" disabled={isPending}>
+        {isPending ? "Creating Account..." : "Sign Up"}
+      </button>
     </form>
   );
 };
