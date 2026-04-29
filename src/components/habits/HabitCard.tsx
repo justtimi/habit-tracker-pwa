@@ -16,31 +16,60 @@ const HabitCard = ({
   const isCompletedToday = habit.completions.includes(today);
   const streak = calculateCurrentStreak(habit.completions);
 
-  return (
-    <div>
-      {habit.name}
+return (
+    <div
+      className={`p-5 rounded-xl border transition-all duration-200 ${
+        isCompletedToday
+          ? "bg-green-50 border-green-300"
+          : "bg-white border-gray-200 hover:shadow-md"
+      }`}
+    >
+      <div className="flex justify-between items-start">
+        <div>
+          <h3
+            className={`text-lg font-semibold ${
+              isCompletedToday ? "line-through text-gray-500" : ""
+            }`}
+          >
+            {habit.name}
+          </h3>
 
-      <input
-        type="checkbox"
-        name=""
-        id=""
-        checked={isCompletedToday}
-        onChange={() => {
-          HabitsService.toggleHabit(habit.id, today);
-          refresh();
-        }}
-      />
-      <button onClick={() => router.push(`/dashboard/habits/${habit.id}/edit`)}>
-        Edit
-      </button>
-      <button
-        onClick={() => {
-          HabitsService.deleteHabit(habit.id);
-          refresh();
-        }}
-      >
-        Delete
-      </button>
+          <p className="text-sm text-gray-500 mt-1">
+            🔥 {streak} day streak
+          </p>
+        </div>
+
+        <input
+          type="checkbox"
+          checked={isCompletedToday}
+          onChange={() => {
+            HabitsService.toggleHabit(habit.id, today);
+            refresh();
+          }}
+          className="w-5 h-5 accent-black cursor-pointer"
+        />
+      </div>
+
+      <div className="flex gap-3 mt-4">
+        <button
+          onClick={() =>
+            router.push(`/dashboard/habits/${habit.id}/edit`)
+          }
+          className="px-3 py-1 text-sm border rounded-md hover:bg-gray-100 transition"
+        >
+          Edit
+        </button>
+
+        <button
+          onClick={() => {
+            HabitsService.deleteHabit(habit.id);
+            refresh();
+          }}
+          className="px-3 py-1 text-sm text-red-600 border border-red-300 rounded-md hover:bg-red-50 transition"
+        >
+          Delete
+        </button>
+      </div>
     </div>
   );
 };

@@ -24,24 +24,53 @@ const DashboardComponent = () => {
     setHabits(HabitsService.getHabitsByUser(session.userId));
   };
   return (
-    <div className="max-w-6xl ">
-      <Header />
-      <div className="w-full ">
-        <div className="">
-          <div className="">
-            <h3>{completedToday} completed today</h3>
+    <div
+      data-testid="dashboard-page"
+      className="min-h-screen bg-[#F5F5F7] px-4 pb-24"
+    >
+      <div className="max-w-xl mx-auto space-y-6">
+        <Header />
+
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-2xl font-semibold text-gray-900">
+              Today
+            </h2>
+            <p className="text-sm text-gray-500 mt-1">
+              {completedToday} completed today
+            </p>
           </div>
+
           <button
+            data-testid="create-habit-button"
             onClick={() => router.push("/dashboard/habits/new")}
-            className="px-4 py-2 bg-black text-white rounded"
+            className="
+              px-4 py-2 rounded-full
+              bg-black text-white text-sm font-medium
+              hover:bg-gray-900
+              active:scale-[0.98]
+              transition
+            "
           >
-            + New Habit
+            + New
           </button>
         </div>
-
         {habits.length === 0 ? (
-          <div className="mt-6 text-gray-500">
-            No habits yet. Create your first one 👇
+          <div
+            data-testid="empty-state"
+            className="
+              mt-10 text-center
+              text-gray-500
+              bg-white border border-gray-200
+              rounded-2xl p-8 shadow-sm
+            "
+          >
+            <p className="text-sm">
+              No habits yet.
+            </p>
+            <p className="text-xs mt-2 text-gray-400">
+              Tap “New” to create your first habit.
+            </p>
           </div>
         ) : (
           <HabitList habits={habits} refresh={refresh} />

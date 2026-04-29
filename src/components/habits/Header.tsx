@@ -44,17 +44,24 @@ const Header = () => {
     router.replace("/");
   };
   return (
-    <nav className="w-full ">
-      <h1>Happy {todayName}</h1>
-      <h3>
-        {now.toLocaleDateString(undefined, {
+    <nav className="w-full flex justify-between items-center py-4">
+      <div>
+        <h1 className="text-xl font-semibold">Happy {todayName}</h1>
+        <h3 className="text-gray-500 text-sm">
+          {now.toLocaleDateString(undefined, {
           year: "numeric",
           month: "long",
           day: "numeric",
-        })}
-        , {formattedTime}
-      </h3>
-      <button onClick={handleLogout}>Logout</button>
+        })}, {formattedTime}
+        </h3>
+      </div>
+
+      <button
+        onClick={handleLogout}
+        className="px-4 py-2 bg-red-500 text-white rounded"
+      >
+        Logout
+      </button>
     </nav>
   );
 };

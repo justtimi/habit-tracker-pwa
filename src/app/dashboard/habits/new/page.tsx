@@ -60,32 +60,84 @@ const New = () => {
     }
   }, [state.code, state.success, router]);
 
+   const inputClass = `
+    w-full pl-4 pr-3 py-2.5
+    rounded-lg border border-gray-200
+    bg-gray-50 text-gray-900
+    transition-all duration-200 ease-out
+    focus:bg-white
+    focus:scale-[1.01]
+    focus:border-blue-400
+    focus:ring-4 focus:ring-blue-100
+    outline-none hover:bg-white hover:border-gray-300
+  `;
+
   return (
-    <form action={formAction}>
-      <div className="flex flex-col gap-4 p-4">
-        <label htmlFor="name">Name:</label>
-        <input name="name" type="text" required />
-      </div>
-      <div className="">
-        <label htmlFor="description">Description:</label>
-        <input name="description" type="text" required />
-      </div>
-      <div className="">
-        <label htmlFor="frequency">Frequency: </label>
-        <select name="frequency" id="frequency">
-          <option value="daily">Daily</option>
-        </select>
-      </div>
+    <div className="min-h-screen flex items-center justify-center bg-[#F5F5F7] px-4">
+      <form
+        action={formAction}
+        className="w-full max-w-md bg-white rounded-2xl shadow-sm border border-gray-200 p-6 space-y-5"
+      >
+        <div className="space-y-1 text-center">
+          <h1 className="text-2xl font-semibold text-gray-900 tracking-tight">
+            New Habit
+          </h1>
+          <p className="text-sm text-gray-500">
+            Start building consistency
+          </p>
+        </div>
 
-      <button type="submit" disabled={isPending}>
-        {isPending ? "Creating..." : "Create Habit"}
-      </button>
+        {state.error && (
+          <div className="text-sm text-red-500 bg-red-50 border border-red-100 p-2 rounded-lg">
+            {state.error}
+          </div>
+        )}
 
-      {state.error && <p className="text-red-500">{state.error}</p>}
-      {state.success && (
-        <p className="text-green-500">Habit created successfully</p>
-      )}
-    </form>
+        <div className="space-y-1">
+          <label className="text-sm text-gray-600">
+            Habit Name
+          </label>
+          <input
+            name="name"
+            type="text"
+            required
+            className={inputClass}
+          />
+        </div>
+
+        <div className="space-y-1">
+          <label className="text-sm text-gray-600">
+            Description
+          </label>
+          <input
+            name="description"
+            type="text"
+            required
+            className={inputClass}
+          />
+        </div>
+
+        <div className="space-y-1">
+          <label className="text-sm text-gray-600">
+            Frequency
+          </label>
+          <select
+            name="frequency"
+            className={inputClass}
+          >
+            <option value="daily">Daily</option>
+          </select>
+        </div>
+
+        <button
+          type="submit"
+          disabled={isPending}
+          className="w-full py-2.5 rounded-lg bg-black text-white font-medium hover:bg-gray-900 active:scale-[0.99] transition disabled:opacity-50"
+        >
+          {isPending ? "Creating..." : "Create Habit"}
+        </button>
+      </form>
+    </div>
   );
 };
 

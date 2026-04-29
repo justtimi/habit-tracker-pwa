@@ -9,9 +9,13 @@ const HabitList = ({
   refresh: () => void;
 }) => {
   return (
-    <div>
+    <div className="mt-6 flex flex-col gap-3">
       {habits.map((habit) => (
-        <HabitCard key={habit.id} habit={habit} refresh={refresh} />
+        <HabitCard
+          key={habit.id}
+          habit={habit}
+          refresh={refresh}
+        />
       ))}
     </div>
   );

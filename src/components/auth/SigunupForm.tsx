@@ -3,7 +3,7 @@ import { AuthService } from "@/lib/auth";
 import { useActionState } from "react";
 import { useRouter } from "next/navigation";
 
-interface ActionState { 
+interface ActionState {
   error: string | null;
   success: boolean;
 }
@@ -34,23 +34,89 @@ const SignupForm = () => {
     success: false,
   });
   return (
-    <form action={formAction}>
-      <h1>Create Account</h1>
+    <div className="min-h-screen flex items-center justify-center bg-[#F5F5F7] px-4">
+      <form
+        action={formAction}
+        className="w-full max-w-sm bg-white rounded-2xl shadow-sm border border-gray-200 p-6 space-y-5"
+      >
+        <div className="text-center space-y-1">
+          <h1 className="text-xl font-semibold text-gray-900">
+            Create Account
+          </h1>
+          <p className="text-sm text-gray-500">Start tracking your habits</p>
+        </div>
 
-      {state.error && <p style={{ color: "red" }}>{state.error}</p>}
-      <div className="">
-        <label htmlFor="email">Email:</label>
-        <input name="email" type="email" required />
-      </div>
-      <div className="">
-        <label htmlFor="password">Password:</label>
-        <input name="password" type="password" required />
-      </div>
+        {state.error && (
+          <div className="text-sm text-red-500 bg-red-50 border border-red-100 p-2 rounded-lg">
+            {state.error}
+          </div>
+        )}
 
-      <button type="submit" disabled={isPending}>
-        {isPending ? "Creating Account..." : "Sign Up"}
-      </button>
-    </form>
+        <div className="space-y-1">
+          <label className="text-sm text-gray-600">Email</label>
+          <input
+            name="email"
+            type="email"
+            required
+            className="
+              w-full px-3 py-2.5
+              rounded-lg border border-gray-200
+              bg-gray-50
+              transition-all duration-200
+              focus:bg-white
+              focus:border-blue-400
+              focus:ring-4 focus:ring-blue-100
+              outline-none
+            "
+          />
+        </div>
+
+        <div className="space-y-1">
+          <label className="text-sm text-gray-600">Password</label>
+          <input
+            name="password"
+            type="password"
+            required
+            className="
+              w-full px-3 py-2.5
+              rounded-lg border border-gray-200
+              bg-gray-50
+              transition-all duration-200
+              focus:bg-white
+              focus:border-blue-400
+              focus:ring-4 focus:ring-blue-100
+              outline-none
+            "
+          />
+        </div>
+
+        <button
+          type="submit"
+          disabled={isPending}
+          className="
+            w-full py-2.5 rounded-lg
+            bg-black text-white font-medium
+            hover:bg-gray-900
+            active:scale-[0.99]
+            transition
+            disabled:opacity-50
+          "
+        >
+          {isPending ? "Creating Account..." : "Sign Up"}
+        </button>
+
+        <div className="text-center text-sm text-gray-500 pt-2">
+          Already have an account?{" "}
+          <button
+            type="button"
+            onClick={() => router.push("/login")}
+            className="text-blue-500 hover:text-blue-600 font-medium"
+          >
+            Log in
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 
