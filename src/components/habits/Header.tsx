@@ -59,6 +59,7 @@ const Header = () => {
       <button
         onClick={handleLogout}
         className="px-4 py-2 bg-red-500 text-white rounded"
+        data-testid="auth-logout-button"
       >
         Logout
       </button>

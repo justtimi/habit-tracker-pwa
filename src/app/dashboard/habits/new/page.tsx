@@ -77,6 +77,7 @@ const New = () => {
       <form
         action={formAction}
         className="w-full max-w-md bg-white rounded-2xl shadow-sm border border-gray-200 p-6 space-y-5"
+        data-testid="habit-form"
       >
         <div className="space-y-1 text-center">
           <h1 className="text-2xl font-semibold text-gray-900 tracking-tight">
@@ -102,6 +103,7 @@ const New = () => {
             type="text"
             required
             className={inputClass}
+            data-testid="habit-name-input"
           />
         </div>
 
@@ -112,8 +114,8 @@ const New = () => {
           <input
             name="description"
             type="text"
-            required
             className={inputClass}
+            data-testid="habit-description-input"
           />
         </div>
 
@@ -124,6 +126,7 @@ const New = () => {
           <select
             name="frequency"
             className={inputClass}
+            data-testid="habit-frequency-select"
           >
             <option value="daily">Daily</option>
           </select>
@@ -133,6 +136,7 @@ const New = () => {
           type="submit"
           disabled={isPending}
           className="w-full py-2.5 rounded-lg bg-black text-white font-medium hover:bg-gray-900 active:scale-[0.99] transition disabled:opacity-50"
+          data-testid="habit-save-button"
         >
           {isPending ? "Creating..." : "Create Habit"}
         </button>

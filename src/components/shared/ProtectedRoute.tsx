@@ -3,10 +3,12 @@
 import { AuthService } from "@/lib/auth";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import SplashScreen from "./SplashScreen";
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
+    const [fadeOut, setFadeOut] = useState(false);
 
   useEffect(() => {
     const session = AuthService.getSession();
@@ -18,7 +20,7 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
     setLoading(false);
   }, [router]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <SplashScreen fadeOut={fadeOut}/>;
   return <>{children}</>;
 };
 

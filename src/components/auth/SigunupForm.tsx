@@ -68,6 +68,7 @@ const SignupForm = () => {
               focus:ring-4 focus:ring-blue-100
               outline-none
             "
+            data-testid="auth-signup-email"
           />
         </div>
 
@@ -87,6 +88,7 @@ const SignupForm = () => {
               focus:ring-4 focus:ring-blue-100
               outline-none
             "
+            data-testid="auth-signup-password"
           />
         </div>
 
@@ -111,6 +113,7 @@ const SignupForm = () => {
             type="button"
             onClick={() => router.push("/login")}
             className="text-blue-500 hover:text-blue-600 font-medium"
+            data-testid="auth-signup-submit"
           >
             Log in
           </button>

@@ -72,6 +72,7 @@ const LoginForm = () => {
         focus:ring-4 focus:ring-blue-100
         outline-none hover:bg-white hover:border-gray-300
       "
+              data-testid="auth-login-email"
             />
 
             <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
@@ -99,6 +100,7 @@ const LoginForm = () => {
         focus:ring-4 focus:ring-blue-100
         outline-none hover:bg-white hover:border-gray-300
       "
+      data-testid= "auth-login-password"
             />
 
             <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
@@ -120,7 +122,7 @@ const LoginForm = () => {
           <button
             type="button"
             onClick={() => router.push("/signup")}
-            className="text-blue-500 hover:text-blue-600 font-medium"
+            className="text-blue-500 hover:text-blue-600 font-medium" data-testid="auth-login-submit"
           >
             Sign up
           </button>

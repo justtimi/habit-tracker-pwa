@@ -129,7 +129,6 @@ export default function EditHabitPage() {
           <input
             name="name"
             defaultValue={habit.name}
-            required
             className={inputClass}
           />
         </div>
@@ -141,7 +140,6 @@ export default function EditHabitPage() {
           <input
             name="description"
             defaultValue={habit.description}
-            required
             className={inputClass}
           />
         </div>
