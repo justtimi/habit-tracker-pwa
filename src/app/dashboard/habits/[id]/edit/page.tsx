@@ -31,6 +31,7 @@ export default function EditHabitPage() {
   ): ActionState => {
     const name = formData.get("name") as string;
     const description = formData.get("description") as string;
+    const frequency = formData.get("frequency") as string;
 
     if (!session) {
       return { success: false, error: "Not logged in", code: "AUTH" };
@@ -48,6 +49,7 @@ export default function EditHabitPage() {
     const updated = HabitsService.updateHabit(habitId, {
       name,
       description,
+      frequency
     });
 
     if (!updated) {

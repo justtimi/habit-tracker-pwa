@@ -21,6 +21,7 @@ const New = () => {
   ): ActionState => {
     const name = formData.get("name") as string;
     const description = formData.get("description") as string;
+    const frequency = formData.get("frequency") as string;
 
     const session = AuthService.getSession();
     if (!session) {
@@ -33,7 +34,7 @@ const New = () => {
       return { success: false, error: validation.error, code: "VALIDATION" };
     }
 
-    const result = HabitsService.createHabit(session.userId, name, description);
+    const result = HabitsService.createHabit(session.userId, name, description, frequency);
 
     return {
       success: result.success,

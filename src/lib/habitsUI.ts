@@ -18,6 +18,7 @@ const createHabit = (
   userId: string,
   name: string,
   description: string,
+  frequency: string
 ): { success: boolean; message: string } => {
   if (!name.trim()) {
     return { success: false, message: "Habit name is required" };
@@ -28,7 +29,7 @@ const createHabit = (
     name: name.trim(),
     description: description.trim(),
     userId,
-    frequency: "daily",
+    frequency : frequency as "daily",
     createdAt: new Date().toISOString(),
     completions: [],
   };
@@ -38,7 +39,7 @@ const createHabit = (
 
 const updateHabit = (
   habitId: string,
-  updates: { name?: string; description?: string },
+  updates: { name?: string; description?: string; frequency?: string },
 ): Habit | null => {
   const habits = getAllHabits();
   const index = habits.findIndex((habit) => habit.id === habitId);
@@ -58,6 +59,7 @@ const updateHabit = (
     ...existing,
     name: cleanName,
     description: cleanDescription,
+    frequency: updates.frequency as "daily"
   };
   habits[index] = updated;
   saveHabits(habits);

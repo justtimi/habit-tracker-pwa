@@ -1,3 +1,5 @@
+"use client"
+import { useState } from "react";
 import { getLocalDate } from "@/lib/dates";
 import { HabitsService } from "@/lib/habitsUI";
 import { calculateCurrentStreak } from "@/lib/streaks";
@@ -17,6 +19,7 @@ const HabitCard = ({
   const isCompletedToday = habit.completions.includes(today);
   const streak = calculateCurrentStreak(habit.completions);
   const slug = getHabitSlug(habit.name);
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
 
   return (
     <div
@@ -66,16 +69,35 @@ const HabitCard = ({
           Edit
         </button>
 
-        <button
-          data-testid={`habit-delete-${slug}`}
-          onClick={() => {
-            HabitsService.deleteHabit(habit.id);
-            refresh();
-          }}
-          className="px-3 py-1 text-sm text-red-600 border border-red-300 rounded-md hover:bg-red-50 transition"
-        >
-          Delete
-        </button>
+       {confirmingDelete ? (
+  <div className="flex gap-2 items-center">
+    <button
+      data-testid="confirm-delete-button"
+      onClick={() => {
+        HabitsService.deleteHabit(habit.id);
+        refresh();
+      }}
+      className="px-3 py-1 text-sm bg-red-600 text-white rounded-md"
+    >
+      Confirm
+    </button>
+
+    <button
+      onClick={() => setConfirmingDelete(false)}
+      className="px-3 py-1 text-sm border rounded-md"
+    >
+      Cancel
+    </button>
+  </div>
+) : (
+  <button
+    data-testid={`habit-delete-${slug}`}
+    onClick={() => setConfirmingDelete(true)}
+    className="px-3 py-1 text-sm text-red-600 border border-red-300 rounded-md hover:bg-red-50 transition"
+  >
+    Delete
+  </button>
+)}
       </div>
     </div>
   );
