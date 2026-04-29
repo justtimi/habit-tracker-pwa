@@ -1,11 +1,17 @@
+import Header from "@/components/habits/Header";
 import ProtectedRoute from "@/components/shared/ProtectedRoute";
 
 const Dashboard = () => {
-  return <div>
+  return (
     <ProtectedRoute>
-      <div className="">dashboard</div>
+      <div className="max-w-6xl ">
+        <Header />
+        <div className="w-full ">
+          
+        </div>
+      </div>
     </ProtectedRoute>
-  </div>;
+  );
 };
 
 export default Dashboard;

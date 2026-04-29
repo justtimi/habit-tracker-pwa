@@ -1,5 +1,6 @@
 import { User, Session } from "@/types/auth";
 import { getItem, setItem, removeItem } from "./storage";
+import { USER_KEY, SESSION_KEY } from "./constants";
 
 const signup = (
   email: string,
@@ -8,7 +9,7 @@ const signup = (
   if (!email.trim() || !password.trim()) {
     return { success: false, message: "Email and password are required" };
   }
-  const users = getItem<User[]>("habit-tracker-users") || [];
+  const users = getItem<User[]>(USER_KEY) || [];
   const normalized = email.toLowerCase().trim();
   const trimmedPassword = password.trim();
   const existingUser = users.find((u) => u.email === normalized);
@@ -20,12 +21,12 @@ const signup = (
     password: trimmedPassword,
   };
   users.push(user);
-  setItem<User[]>("habit-tracker-users", users);
+  setItem<User[]>(USER_KEY, users);
   const session: Session = {
     userId: user.id,
     email: user.email,
   };
-  setItem<Session>("habit-tracker-session", session);
+  setItem<Session>(SESSION_KEY, session);
   return { success: true, message: "Signup successful" };
 };
 const login = (
@@ -35,7 +36,7 @@ const login = (
   if (!email.trim() || !password.trim()) {
     return { success: false, message: "Email and password are required" };
   }
-  const users = getItem<User[]>("habit-tracker-users") || [];
+  const users = getItem<User[]>(USER_KEY) || [];
   const normalized = email.toLowerCase().trim();
   const trimmedPassword = password.trim();
   const user = users.find(
@@ -50,15 +51,15 @@ const login = (
     userId: user.id,
     email: user.email,
   };
-  setItem<Session>("habit-tracker-session", session);
+  setItem<Session>(SESSION_KEY, session);
   return { success: true, message: "Login successful" };
 };
 const logout = (): void => {
-  removeItem("habit-tracker-session");
+  removeItem(SESSION_KEY);
 };
 
 const getSession = (): Session | null => {
-  return getItem<Session>("habit-tracker-session");
+  return getItem<Session>(SESSION_KEY);
 };
 
 export const AuthService = {
