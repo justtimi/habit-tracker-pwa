@@ -2,10 +2,10 @@ import { User, Session } from "@/types/auth";
 import { getItem, setItem, removeItem } from "./storage";
 import { USER_KEY, SESSION_KEY } from "./constants";
 
-const signup = (
+const signup = async (
   email: string,
   password: string,
-): { success: boolean; message: string } => {
+): Promise<{ success: boolean; message: string }> => {
   if (!email.trim() || !password.trim()) {
     return { success: false, message: "Email and password are required" };
   }
@@ -29,10 +29,10 @@ const signup = (
   setItem<Session>(SESSION_KEY, session);
   return { success: true, message: "Signup successful" };
 };
-const login = (
+const login = async (
   email: string,
   password: string,
-): { success: boolean; message: string } => {
+): Promise<{ success: boolean; message: string }> => {
   if (!email.trim() || !password.trim()) {
     return { success: false, message: "Email and password are required" };
   }

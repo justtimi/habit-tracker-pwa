@@ -6,8 +6,9 @@ import { HabitsService } from "@/lib/habitsUI";
 
 describe("habit form", () => {
   beforeEach(() => {
-    localStorage.clear();
-
+    localStorage?.removeItem("habit-tracker-users");
+localStorage?.removeItem("habit-tracker-session");
+localStorage?.removeItem("habit-tracker-habits");
     AuthService.signup("test@user.com", "123456");
   });
 
@@ -22,6 +23,8 @@ describe("habit form", () => {
   });
 
   it("creates a new habit and renders it in the list", async () => {
+    const session = AuthService.getSession();
+
     render(<DashboardComponent />);
 
     fireEvent.click(screen.getByTestId("create-habit-button"));
@@ -34,24 +37,34 @@ describe("habit form", () => {
       target: { value: "Stay hydrated" },
     });
 
+    fireEvent.change(screen.getByTestId("habit-frequency-select"), {
+      target: { value: "daily" },
+    });
+
     fireEvent.click(screen.getByTestId("habit-save-button"));
+
+    const habits = HabitsService.getHabitsByUser(session!.userId);
+    const created = habits.find((h) => h.name === "Drink Water");
+
+    expect(created).toBeDefined();
+    expect(created!.frequency).toBe("daily");
 
     await waitFor(() => {
       expect(screen.getByText("Drink Water")).toBeInTheDocument();
     });
   });
 
-  it("edits an existing habit and preserves immutable fields", async () => {
+  it("edits an existing habit and preserves immutable fields", () => {
     const session = AuthService.getSession();
 
-    const habit = HabitsService.createHabit(
+    HabitsService.createHabit(
       session!.userId,
       "Read Books",
-      "Read daily"
+      "Read daily",
+      "daily",
     );
 
-    const habits = HabitsService.getHabitsByUser(session!.userId);
-    const created = habits[0];
+    const created = HabitsService.getHabitsByUser(session!.userId)[0];
 
     HabitsService.updateHabit(created.id, {
       name: "Read More Books",
@@ -70,28 +83,23 @@ describe("habit form", () => {
   it("deletes a habit only after explicit confirmation", () => {
     const session = AuthService.getSession();
 
-    const habit = HabitsService.createHabit(
-      session!.userId,
-      "To Delete",
-      "temp",
-      "daily"
-    );
+    HabitsService.createHabit(session!.userId, "To Delete", "temp", "daily");
 
-    HabitsService.deleteHabit(habit.id);
+    const created = HabitsService.getHabitsByUser(session!.userId)[0];
+
+    HabitsService.deleteHabit(created.id);
 
     const remaining = HabitsService.getHabitsByUser(session!.userId);
 
-    expect(remaining.find((h) => h.id === habit.id)).toBeUndefined();
+    expect(remaining.find((h) => h.id === created.id)).toBeUndefined();
   });
 
-  it("toggles completion and updates the streak display", () => {
+  it("toggles completion and updates habit state correctly", () => {
     const session = AuthService.getSession();
 
-    const habit = HabitsService.createHabit(
-      session!.userId,
-      "Streak Test",
-      "test"
-    );
+    HabitsService.createHabit(session!.userId, "Streak Test", "test", "daily");
+
+    const habit = HabitsService.getHabitsByUser(session!.userId)[0];
 
     const today = new Date().toISOString().split("T")[0];
 

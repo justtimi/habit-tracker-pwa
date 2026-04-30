@@ -6,7 +6,9 @@ import { AuthService } from "@/lib/auth";
 
 describe("auth flow", () => {
   beforeEach(() => {
-    localStorage.clear();
+    localStorage?.removeItem("habit-tracker-users");
+localStorage?.removeItem("habit-tracker-session");
+localStorage?.removeItem("habit-tracker-habits");
   });
 
   it("submits the signup form and creates a session", () => {

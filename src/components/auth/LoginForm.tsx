@@ -11,11 +11,11 @@ interface ActionState {
 
 const LoginForm = () => {
   const router = useRouter();
-  const handleLogin = (prev: ActionState, formData: FormData) => {
+  const handleLogin = async (prev: ActionState, formData: FormData) => {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 
-    const result = AuthService.login(email, password);
+    const result = await AuthService.login(email, password);
 
     if (result.success) {
       router.push("/dashboard");
@@ -76,7 +76,20 @@ const LoginForm = () => {
             />
 
             <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-              ✉️
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75"
+                />
+              </svg>
             </div>
           </div>
         </div>
@@ -100,16 +113,30 @@ const LoginForm = () => {
         focus:ring-4 focus:ring-blue-100
         outline-none hover:bg-white hover:border-gray-300
       "
-      data-testid= "auth-login-password"
+              data-testid="auth-login-password"
             />
 
             <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-              🔒
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                className="size-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z"
+                />
+              </svg>
             </div>
           </div>
         </div>
 
         <button
+          data-testid="auth-login-submit"
           type="submit"
           disabled={isPending}
           className="w-full py-2.5 rounded-lg bg-black text-white font-medium hover:bg-gray-900 active:scale-[0.99] transition disabled:opacity-50"
@@ -122,7 +149,8 @@ const LoginForm = () => {
           <button
             type="button"
             onClick={() => router.push("/signup")}
-            className="text-blue-500 hover:text-blue-600 font-medium" data-testid="auth-login-submit"
+            className="text-blue-500 hover:text-blue-600 font-medium"
+            data-testid="auth-login-signup-link"
           >
             Sign up
           </button>

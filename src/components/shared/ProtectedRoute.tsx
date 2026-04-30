@@ -8,19 +8,20 @@ import SplashScreen from "./SplashScreen";
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-    const [fadeOut, setFadeOut] = useState(false);
+  const [fadeOut, setFadeOut] = useState(false);
 
   useEffect(() => {
     const session = AuthService.getSession();
 
     if (!session) {
       router.replace("/login");
-      return;
+    } else {
+      setFadeOut(true);
+      setTimeout(() => setLoading(false), 500);
     }
-    setLoading(false);
   }, [router]);
 
-  if (loading) return <SplashScreen fadeOut={fadeOut}/>;
+  if (loading) return <SplashScreen fadeOut={fadeOut} />;
   return <>{children}</>;
 };
 

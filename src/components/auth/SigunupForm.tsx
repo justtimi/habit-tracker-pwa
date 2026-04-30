@@ -15,7 +15,7 @@ const SignupForm = () => {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 
-    const result = AuthService.signup(email, password);
+    const result = await AuthService.signup(email, password);
     if (result.success) {
       router.push("/dashboard");
       return {
@@ -58,15 +58,7 @@ const SignupForm = () => {
             name="email"
             type="email"
             required
-            className="
-              w-full px-3 py-2.5
-              rounded-lg border border-gray-200
-              bg-gray-50
-              transition-all duration-200
-              focus:bg-white
-              focus:border-blue-400
-              focus:ring-4 focus:ring-blue-100
-              outline-none
+            className="w-full px-3 py-2.5 rounded-lg border border-gray-200 bg-gray-50 transition-all duration-200 focus:bg-white focus:border-blue-400 focus:ring-4 focus:ring-blue-100 outline-none
             "
             data-testid="auth-signup-email"
           />
@@ -78,21 +70,13 @@ const SignupForm = () => {
             name="password"
             type="password"
             required
-            className="
-              w-full px-3 py-2.5
-              rounded-lg border border-gray-200
-              bg-gray-50
-              transition-all duration-200
-              focus:bg-white
-              focus:border-blue-400
-              focus:ring-4 focus:ring-blue-100
-              outline-none
-            "
+            className="w-full px-3 py-2.5 rounded-lg border border-gray-200 bg-gray-50 transition-all duration-200 focus:bg-white focus:border-blue-400 focus:ring-4 focus:ring-blue-100 outline-none"
             data-testid="auth-signup-password"
           />
         </div>
 
         <button
+        data-testid="auth-signup-submit"
           type="submit"
           disabled={isPending}
           className="
@@ -113,7 +97,7 @@ const SignupForm = () => {
             type="button"
             onClick={() => router.push("/login")}
             className="text-blue-500 hover:text-blue-600 font-medium"
-            data-testid="auth-signup-submit"
+            data-testid="auth-signup-login-link"
           >
             Log in
           </button>
